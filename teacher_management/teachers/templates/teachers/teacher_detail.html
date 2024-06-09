@@ -1,0 +1,24 @@
+<!-- teachers/templates/teachers/teacher_detail.html -->
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>教师详细信息</h2>
+  <table>
+    <tr>
+      <th>姓名</th>
+      <td>{{ teacher.name }}</td>
+    </tr>
+    <tr>
+      <th>教育背景</th>
+      <td>{{ teacher.education_background }}</td>
+    </tr>
+    <tr>
+      <th>工作经历</th>
+      <td>{{ teacher.work_experience }}</td>
+    </tr>
+    <tr>
+      <th>科研成果</th>
+      <td>{{ teacher.research_achievements }}</td>
+    </tr>
+  </table>
+{% endblock %}

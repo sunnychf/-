@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>教师列表</h2>
+  <form method="get">
+    <input type="text" name="query" placeholder="搜索教师">  <!-- 搜索框 -->
+    <button type="submit">搜索</button>  <!-- 搜索按钮 -->
+  </form>
+  <ul>
+    {% for teacher in teachers %}  <!-- 循环显示教师列表 -->
+      <li>
+        <h3>{{ teacher.user.username }}</h3>
+        <p>教育背景: {{ teacher.education_background }}</p>
+        <p>工作经历: {{ teacher.work_experience }}</p>
+        <p>科研成果: {{ teacher.research_achievements }}</p>
+      </li>
+    {% endfor %}
+    {% if not teachers %}
+      <li>没有找到符合条件的教师。</li>
+    {% endif %}
+  </ul>
+{% endblock %}

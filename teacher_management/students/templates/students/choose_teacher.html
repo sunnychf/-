@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>选择导师</h2>
+  <form method="post">
+    {% csrf_token %}  <!-- 防跨站请求伪造令牌 -->
+    <label for="teacher_id">选择教师:</label>
+    <select id="teacher_id" name="teacher_id">  <!-- 教师选择框 -->
+      {% for teacher in teachers %}
+        <option value="{{ teacher.id }}">{{ teacher.name }}</option>  <!-- 教师选项 -->
+      {% endfor %}
+    </select>
+    <button type="submit">选择</button>  <!-- 选择按钮 -->
+  </form>
+{% endblock %}

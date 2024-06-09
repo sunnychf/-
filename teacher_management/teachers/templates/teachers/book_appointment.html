@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>预约 {{ teacher.name }}</h2>
+  <form method="post">
+    {% csrf_token %}  <!-- 防跨站请求伪造令牌 -->
+    <label for="student_name">学生姓名:</label>
+    <input type="text" id="student_name" name="student_name">  <!-- 学生姓名输入框 -->
+    <label for="schedule_id">选择日期:</label>
+    <select id="schedule_id" name="schedule_id">  <!-- 日期选择框 -->
+      {% for schedule in schedules %}
+        <option value="{{ schedule.id }}">{{ schedule.date }}</option>  <!-- 日期选项 -->
+      {% endfor %}
+    </select>
+    <label for="time_slot">选择时间段:</label>
+    <select id="time_slot" name="time_slot">  <!-- 时间段选择框 -->
+      <!-- 这里需要添加逻辑，根据选定的日程生成时间段 -->
+    </select>
+    <button type="submit">预约</button>  <!-- 预约按钮 -->
+  </form>
+{% endblock %}

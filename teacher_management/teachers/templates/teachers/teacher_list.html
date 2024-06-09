@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>教师列表</h2>
+  <form method="get">
+    <input type="text" name="q" placeholder="搜索教师">  <!-- 搜索框 -->
+    <button type="submit">搜索</button>  <!-- 搜索按钮 -->
+  </form>
+  <ul>
+    {% for teacher in teachers %}  <!-- 循环显示教师列表 -->
+      <li>{{ teacher.name }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
