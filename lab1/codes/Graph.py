@@ -50,6 +50,9 @@ def find_bridge_words(G, word1, word2):
     word1 = word1.lower()
     word2 = word2.lower()
 
+    if G.number_of_nodes() == 0:  
+        return "G is empty"
+
     # 检查word1和word2是否在图中  
     if word1 not in G or word2 not in G:  
         return "No word1 or word2 in the graph!"  
@@ -110,23 +113,24 @@ def find_shortest_path(G, word1, word2):
     word2 = word2.lower()  
     try:  
         # 计算最短路径  
-        path = nx.shortest_path(G, source=word1, target=word2, weight='weight')  
-        path_length = nx.shortest_path_length(G, source=word1, target=word2, weight='weight')  
+        # path = nx.shortest_path(G, source=word1, target=word2, weight='weight')  
+        # path_length = nx.shortest_path_length(G, source=word1, target=word2, weight='weight')  
           
         # 可选：计算所有最短路径（如果需要）  
-        # all_paths = nx.all_shortest_paths(G, source=word1, target=word2, weight='weight')  
-          
-        # 打印结果  
-        print(f"Shortest path from {word1} to {word2}: {path}")  
-        print(f"Path length: {path_length}")  
-        
-        # 可视化图的一部分（最短路径）  
-        # 使用Matplotlib高亮显示最短路径  
-        pos = nx.spring_layout(G)  # 可以选择其他布局方式  
-        nx.draw(G, pos, with_labels=True, node_color='lightblue', node_size=500, edge_color='gray')  
-        nx.draw_networkx_edges(G, pos, edgelist=list(zip(path[:-1], path[1:])), edge_color='red', width=2)  
-        plt.title(f"Shortest Path from {word1} to {word2}")  
-        plt.show()  
+        all_paths = nx.all_shortest_paths(G, source=word1, target=word2, weight='weight')  
+        for path in all_paths:
+            path_length = path_length = sum(G[path[i]][path[i+1]].get('weight', 1) for i in range(len(path)-1))  
+            # 打印结果  
+            print(f"Shortest path from {word1} to {word2}: {path}")  
+            print(f"Path length: {path_length}")  
+            
+            # 可视化图的一部分（最短路径）  
+            # 使用Matplotlib高亮显示最短路径  
+            pos = nx.spring_layout(G)  # 可以选择其他布局方式  
+            nx.draw(G, pos, with_labels=True, node_color='lightblue', node_size=500, edge_color='gray')  
+            nx.draw_networkx_edges(G, pos, edgelist=list(zip(path[:-1], path[1:])), edge_color='red', width=2)  
+            plt.title(f"Shortest Path from {word1} to {word2}")  
+            plt.show()  
     except nx.NetworkXNoPath:  
         print(f"No path from {word1} to {word2} found.不可达") 
 
@@ -154,7 +158,7 @@ def random_walk(G, start_node=None):
         chosen_node = chosen_edge[1]  
   
         # 如果该边已经访问过，则停止遍历  
-        if (current_node, chosen_node,chosen_edge[2]) in visited_edges or (chosen_node, current_node,chosen_edge[2]) in visited_edges:  
+        if (current_node, chosen_node,chosen_edge[2]) in visited_edges:  
             break  
   
         # 添加到已访问的节点和边中  
@@ -174,7 +178,7 @@ def random_walk(G, start_node=None):
 
 # 主程序  
 if __name__ == "__main__":
-    filename = "D:\\software_labs\\lab1\\test.txt"
+    filename = "D:\\software_labs\\lab1\\input.txt"
     words = read_and_process_text(filename)  
     G = create_word_graph(words)
     print(G.nodes)  
@@ -210,7 +214,7 @@ if __name__ == "__main__":
             #功能需求6：随机游走
             visited_nodes = []
             visited_edges = []
-            visited_nodes ,visited_edges= random_walk(G,'life')
+            visited_nodes ,visited_edges= random_walk(G)
             random_walk_path = "random_walk_path.txt"
             with open(random_walk_path, 'w') as f:   
                 for node in visited_nodes:  
